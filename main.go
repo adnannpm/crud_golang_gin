@@ -18,6 +18,9 @@ func main() {
 	publisherRepository := repository.NewPublisherRepository(db)
 	publisherController := controller.NewPublisherController(publisherRepository)
 
+	categoriRepository := repository.NewCategoryRepositoryImpl(db)
+	categoriController := controller.NewCategoriController(categoriRepository)
+
 	public := router.Group("/api")
 	{
 		public.POST("/register", userController.Register)
@@ -28,6 +31,11 @@ func main() {
 		public.POST("/publisher", publisherController.AddPublisher)
 		public.PATCH("/publisher/:id", publisherController.Update)
 		public.DELETE("/publisher/:id", publisherController.Delete)
+
+		public.GET("/categori", categoriController.GetAllData)
+		public.POST("/categori", categoriController.Add)
+		public.PATCH("/categori/:id", categoriController.Update)
+		public.DELETE("/categori/:id", categoriController.Delete)
 	}
 
 	router.Run(":8080")
